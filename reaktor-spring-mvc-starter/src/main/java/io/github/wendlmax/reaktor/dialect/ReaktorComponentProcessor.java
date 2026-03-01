@@ -64,10 +64,13 @@ public class ReaktorComponentProcessor extends AbstractElementModelProcessor {
             return;
         }
 
-        String componentName = getAttributeValue(tag, "name");
-        if (componentName == null || componentName.isBlank()) {
+        String rawComponentName = getAttributeValue(tag, "name");
+        if (rawComponentName == null || rawComponentName.isBlank()) {
             return;
         }
+        IStandardExpressionParser parser = StandardExpressions.getExpressionParser(context.getConfiguration());
+        Object evalName = evaluateExpression(context, parser, rawComponentName);
+        String componentName = evalName != null ? evalName.toString() : rawComponentName;
 
         Map<String, Object> props = extractProps(context, tag);
         props = unwrapLazyProps(props);
@@ -169,7 +172,7 @@ public class ReaktorComponentProcessor extends AbstractElementModelProcessor {
                 continue;
             ITemplateEvent event = model.get(i);
             if (event instanceof IOpenElementTag openTag && isReactSlot(openTag)) {
-                String slotName = getSlotName(openTag);
+                String slotName = getSlotName(openTag, context);
                 if (slotName != null) {
                     int closeIdx = findMatchingCloseTag(model, i, "slot");
                     if (closeIdx > i) {
@@ -219,11 +222,16 @@ public class ReaktorComponentProcessor extends AbstractElementModelProcessor {
         return false;
     }
 
-    private String getSlotName(IOpenElementTag tag) {
+    private String getSlotName(IOpenElementTag tag, ITemplateContext context) {
         if (tag instanceof IProcessableElementTag processable) {
             String name = processable.getAttributeValue("react", "name");
             if (name == null) {
                 name = processable.getAttributeValue("name");
+            }
+            if (name != null) {
+                IStandardExpressionParser parser = StandardExpressions.getExpressionParser(context.getConfiguration());
+                Object eval = evaluateExpression(context, parser, name);
+                return eval != null ? eval.toString() : name;
             }
             return name;
         }

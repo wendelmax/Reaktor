@@ -38,9 +38,9 @@ class ReaktorComponentProcessorTest {
 
         String result = templateEngine.process(template, context);
 
-        assertThat(result).contains("data-react-component=\"&#39;MyComp&#39;\"");
+        assertThat(result).contains("data-react-component=\"MyComp\"");
         assertThat(result).contains("data-react-props='{\"prop1\":\"val1\"}'");
-        assertThat(result).contains("src=\"/react/&#39;MyComp&#39;.tsx\"");
+        assertThat(result).contains("src=\"/react/MyComp.tsx\"");
     }
 
     @Test
@@ -54,8 +54,8 @@ class ReaktorComponentProcessorTest {
         String result = templateEngine.process(template, context);
 
         assertThat(result).contains("data-react-props=");
-        assertThat(result).contains("\"slot&#39;header&#39;\":\"<h1>Title</h1>\"");
-        assertThat(result).contains("\"children\":\"\\n  \\n  <p>Body content</p>\"");
+        assertThat(result).contains("\"slotHeader\":\"&lt;h1&gt;Title&lt;/h1&gt;\"");
+        assertThat(result).contains("\"children\":\"    &lt;p&gt;Body content&lt;/p&gt;\"");
     }
 
     @Test
