@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:react="http://reaktor.io">
+
+<head>
+    <title>Reaktor - Create Student</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <style th:replace="~{students/index :: style}"></style>
+</head>
+
+<body>
+    <react:context />
+    <div class="container">
+        <react:component react:name="StudentForm" react:isEdit="false" />
+    </div>
+</body>
+
+</html>

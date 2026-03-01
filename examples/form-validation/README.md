@@ -1,0 +1,21 @@
+# Reaktor - Form Validation
+
+This example demonstrates how to handle forms and server-side validation using **ReaktorResponse**.
+
+## Key Features
+- **Server-Side Validation**: Using standard `jakarta.validation` annotations in Java.
+- **Automated Mapping**: Reaktor's `ReaktorResponse` structure makes it easy for the React component to map error messages back to specific fields.
+- **Loading States**: Managing UI states (idle, loading, success, error) during the request lifecycle.
+
+## How it works
+1. The **React Component** captures user input using `useState`.
+2. On submit, it sends a JSON payload to the **Spring Controller**.
+3. If valid, the controller returns `ReaktorResponse.ok()`.
+4. If invalid, Spring's `@Valid` catches errors, and they are returned in the `errors` array of the `ReaktorResponse`.
+5. The component iterates over these errors to display them under the correct inputs.
+
+## Running the example
+```bash
+mvn spring-boot:run
+```
+Access at `http://localhost:8080`

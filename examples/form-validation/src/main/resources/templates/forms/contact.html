@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:react="http://reaktor.io">
+
+<head>
+    <title>Reaktor - Form Validation</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, sans-serif;
+            background: #fdfdfd;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .info {
+            margin-bottom: 2rem;
+            border-left: 4px solid #007bff;
+            padding-left: 1rem;
+            background: #f8f9fa;
+            padding: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="info">
+            <h1>Contact Support</h1>
+            <p>This form uses <strong>ReaktorResponse</strong> to handle server-side validation messages seamlessly.</p>
+        </div>
+
+        <react:component react:name="ContactForm" />
+    </div>
+</body>
+
+</html>
