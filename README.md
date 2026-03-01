@@ -81,7 +81,7 @@ In your React component, access the slot via `props.slotHeader`.
 Keep your frontend types perfectly in sync with your backend Java models using the `@GenerateTS` annotation:
 
 ```java
-import io.github.wendlmax.reaktor.ts.GenerateTS;
+import io.github.wendelmax.reaktor.ts.GenerateTS;
 
 @GenerateTS
 public class UserDTO {
