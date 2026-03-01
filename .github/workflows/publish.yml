@@ -22,7 +22,7 @@ jobs:
 
     - name: Install GPG Secret Key
       run: |
-        cat <(echo -e "${{ secrets.GPG_PRIVATE_KEY }}") | gpg --batch --import
+        echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
 
     - name: Publish to Sonatype OSSRH
       env:
@@ -33,3 +33,4 @@ jobs:
         mvn deploy -B -P release
         -DrepositoryId=ossrh
         -Dgpg.passphrase=${{ secrets.GPG_PASSPHRASE }}
+        -Dgpg.arguments="--pinentry-mode=loopback"
