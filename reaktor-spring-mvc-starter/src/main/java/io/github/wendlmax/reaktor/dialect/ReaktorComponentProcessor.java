@@ -22,6 +22,19 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
+/**
+ * The core Thymeleaf element processor for the {@code <react:component>} XML
+ * tag.
+ * <p>
+ * This processor parses standard HTML elements annotated with Reaktor prefixes,
+ * evaluates their dynamic properties,
+ * serializes React props to JSON, analyzes slotted HTML content, and
+ * orchestrates the DOM injection of the
+ * Vite development client or production standard entry points.
+ * </p>
+ *
+ * @since 0.1.0
+ */
 public class ReaktorComponentProcessor extends AbstractElementModelProcessor {
 
     private static final String ELEMENT_NAME = "component";
@@ -42,6 +55,14 @@ public class ReaktorComponentProcessor extends AbstractElementModelProcessor {
     // We only want to inject the Vite client once per page
     private static final String VITE_CLIENT_INJECTED = "reaktor.vite_client_injected";
 
+    /**
+     * Instantiates the core component processor with its properties mapping.
+     *
+     * @param dialectPrefix     the XML namespace tag prefix (e.g., "react").
+     * @param componentResolver the active logic-to-URI script resolver.
+     * @param properties        the Reaktor properties object containing dev/prod
+     *                          base URLs.
+     */
     public ReaktorComponentProcessor(String dialectPrefix, ReaktorComponentResolver componentResolver,
             ReaktorProperties properties) {
         super(TemplateMode.HTML, dialectPrefix, ELEMENT_NAME, true, null, false, PRECEDENCE);
@@ -50,6 +71,16 @@ public class ReaktorComponentProcessor extends AbstractElementModelProcessor {
         this.properties = properties;
     }
 
+    /**
+     * Bootstraps the Thymeleaf node parsing operation, extracting props,
+     * interpolating variables,
+     * and writing the equivalent mountable HTML nodes into the AST.
+     *
+     * @param context          the template runtime evaluation context.
+     * @param model            the structural AST node model representing the
+     *                         component tag block.
+     * @param structureHandler mutator to modify the parsed HTML document output.
+     */
     @Override
     protected void doProcess(ITemplateContext context, IModel model,
             IElementModelStructureHandler structureHandler) {

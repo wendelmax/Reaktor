@@ -15,6 +15,10 @@
     <name>Reaktor Sample - Form Validation</name>
     <description>Example showing form handling and server-side validation with ReaktorResponse</description>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.github.wendelmax</groupId>

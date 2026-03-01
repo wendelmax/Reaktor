@@ -15,6 +15,10 @@
     <name>Reaktor Sample - Basics &amp; Hooks</name>
     <description>Simple example showing useState and useEffect with Reaktor</description>
 
+    <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>io.github.wendelmax</groupId>

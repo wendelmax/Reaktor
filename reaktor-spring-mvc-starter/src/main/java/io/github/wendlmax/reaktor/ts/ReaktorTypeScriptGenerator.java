@@ -16,6 +16,12 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Core engine traversing Java metadata representations and compiling them
+ * dynamically into standard strictly-typed TypeScript declarations.
+ *
+ * @since 0.1.0
+ */
 public class ReaktorTypeScriptGenerator {
 
     private static final Logger log = LoggerFactory.getLogger(ReaktorTypeScriptGenerator.class);

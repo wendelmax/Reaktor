@@ -17,25 +17,72 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+/**
+ * Custom Spring HandlerMethodReturnValueHandler dedicated to processing
+ * {@link ReaktorResponse} entities.
+ * <p>
+ * This class inspects controller outputs. If the method is annotated with
+ * {@code @ResponseBody},
+ * it serializes the underlying data to JSON for API calls. If it is a standard
+ * controller route,
+ * it bridges the payload alongside flash attributes directly into the
+ * {@code ModelAndViewContainer}
+ * to be rendered into the Thymeleaf template layout.
+ * </p>
+ *
+ * @since 0.1.0
+ */
 public class ReaktorResponseReturnValueHandler implements HandlerMethodReturnValueHandler {
 
     private final List<HttpMessageConverter<?>> messageConverters;
 
+    /**
+     * Instantiates the handler passing custom message converters for JSON APIs.
+     *
+     * @param messageConverters the list of available message converters
+     *                          representing HTTP translations.
+     */
     public ReaktorResponseReturnValueHandler(List<HttpMessageConverter<?>> messageConverters) {
         this.messageConverters = messageConverters != null && !messageConverters.isEmpty()
                 ? messageConverters
                 : List.of(new MappingJackson2HttpMessageConverter(new ObjectMapper()));
     }
 
+    /**
+     * Instantiates the handler generating a default
+     * MappingJackson2HttpMessageConverter.
+     *
+     * @param objectMapper the Jackson object mapper to use for serialization tasks.
+     */
     public ReaktorResponseReturnValueHandler(ObjectMapper objectMapper) {
         this.messageConverters = List.of(new MappingJackson2HttpMessageConverter(objectMapper));
     }
 
+    /**
+     * Determines if the controller method output type is compatible with this
+     * handler.
+     *
+     * @param returnType the method signature payload representation.
+     * @return true if the representation extends or behaves as
+     *         {@link ReaktorResponse}.
+     */
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
         return ReaktorResponse.class.isAssignableFrom(returnType.getParameterType());
     }
 
+    /**
+     * Hooks into the Spring execution pipeline extracting the Reaktor response and
+     * wiring its payload,
+     * status, headers, and view states seamlessly to the user request block.
+     *
+     * @param returnValue  the returned controller payload.
+     * @param returnType   the metadata representing the controller structure.
+     * @param mavContainer the model containment scope mapped to Thymeleaf layouts.
+     * @param webRequest   the physical browser context.
+     * @throws Exception if mapping conversion crashes securely inside the servlet
+     *                   filter stack.
+     */
     @Override
     public void handleReturnValue(@Nullable Object returnValue, MethodParameter returnType,
             ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
