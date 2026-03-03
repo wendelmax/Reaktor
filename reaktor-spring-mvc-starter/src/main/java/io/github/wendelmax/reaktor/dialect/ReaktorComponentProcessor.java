@@ -224,7 +224,7 @@ public class ReaktorComponentProcessor extends AbstractElementModelProcessor {
 
         IModel defaultSlotContent = modelFactory.createModel();
         for (int i = 1; i < end; i++) {
-            if (!consumedIndices.contains(i)) {
+            if (!consumedIndices.contains(i) && !isReactSlotOpenOrClose(model.get(i))) {
                 defaultSlotContent.add(model.get(i));
             }
         }
